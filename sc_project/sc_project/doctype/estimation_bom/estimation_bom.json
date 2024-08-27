@@ -1,0 +1,190 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-26 14:31:53.359980",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "quotation",
+  "quotation_item",
+  "column_break_awpp",
+  "status",
+  "product_details_section",
+  "title",
+  "product_item",
+  "column_break_ycmk",
+  "bom_qty",
+  "section_break_uyem",
+  "per_default_material_margin",
+  "raw_materials",
+  "section_break_svhj",
+  "per_default_activity_margin",
+  "activities",
+  "cost_details_section",
+  "total_material_cost",
+  "total_activities_cost",
+  "total_cost",
+  "column_break_bsvw",
+  "margin_amount",
+  "unit_selling_price",
+  "total_selling_price"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Quotation Details"
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Quotation",
+   "options": "Quotation",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_uyem",
+   "fieldtype": "Section Break",
+   "label": "Raw Material Details"
+  },
+  {
+   "fieldname": "raw_materials",
+   "fieldtype": "Table",
+   "label": "Raw Materials",
+   "options": "BOM Raw Material"
+  },
+  {
+   "fieldname": "section_break_svhj",
+   "fieldtype": "Section Break",
+   "label": "Activity Details"
+  },
+  {
+   "fieldname": "activities",
+   "fieldtype": "Table",
+   "label": "Activities",
+   "options": "BOM Activity"
+  },
+  {
+   "fieldname": "quotation_item",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Quotation Item",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_awpp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nSubmitted\nCancelled"
+  },
+  {
+   "fieldname": "product_details_section",
+   "fieldtype": "Section Break",
+   "label": "Product Details"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ycmk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "bom_qty",
+   "fieldtype": "Float",
+   "label": "BOM Qty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "product_item",
+   "fieldtype": "Link",
+   "label": "Product Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "total_material_cost",
+   "fieldtype": "Currency",
+   "label": "Total Material Cost"
+  },
+  {
+   "fieldname": "per_default_material_margin",
+   "fieldtype": "Float",
+   "label": "Default Margin %"
+  },
+  {
+   "fieldname": "per_default_activity_margin",
+   "fieldtype": "Float",
+   "label": "Default Margin %"
+  },
+  {
+   "fieldname": "cost_details_section",
+   "fieldtype": "Section Break",
+   "label": "Cost Details"
+  },
+  {
+   "fieldname": "total_activities_cost",
+   "fieldtype": "Currency",
+   "label": "Total Activities Cost"
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost"
+  },
+  {
+   "fieldname": "column_break_bsvw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "margin_amount",
+   "fieldtype": "Currency",
+   "label": "Margin Amount"
+  },
+  {
+   "fieldname": "unit_selling_price",
+   "fieldtype": "Currency",
+   "label": "Unit Selling Price"
+  },
+  {
+   "fieldname": "total_selling_price",
+   "fieldtype": "Currency",
+   "label": "Total Selling Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-27 10:15:10.134473",
+ "modified_by": "Administrator",
+ "module": "SC Project",
+ "name": "Estimation BOM",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
