@@ -9,7 +9,7 @@ class EstimationBOM(Document):
 	def on_update(self):
 		quotation = frappe.get_doc("Quotation",self.quotation)
 		for item in quotation.items:
-			if item.name == self.quotation_item:
+			if item.custom_estimation_bom == self.name:
 				item.qty = self.bom_qty
 				item.item_name = self.title
 				item.rate = self.unit_selling_price

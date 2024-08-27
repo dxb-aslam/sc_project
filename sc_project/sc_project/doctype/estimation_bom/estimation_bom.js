@@ -40,8 +40,12 @@ frappe.ui.form.on("BOM Raw Material", {
     margin_amount(frm, cdt, cdn) {
         calculateRawMaterialRowTotal(frm, cdt, cdn, amount_only = true)
         calculateBOMTotal(frm)
+    },
+    raw_materials_add(frm, cdt, cdn) {
+        frappe.model.set_value(cdt, cdn, "per_margin", frm.doc.per_default_material_margin)
     }
 });
+
 frappe.ui.form.on("BOM Activity", {
     activity_type(frm, cdt, cdn) {
         calculateActivityRowTotal(frm, cdt, cdn)
@@ -66,6 +70,9 @@ frappe.ui.form.on("BOM Activity", {
     margin_amount(frm, cdt, cdn) {
         calculateActivityRowTotal(frm, cdt, cdn, amount_only = true)
         calculateBOMTotal(frm)
+    },
+    activities_add(frm, cdt, cdn) {
+        frappe.model.set_value(cdt, cdn, "per_margin", frm.doc.per_default_activity_margin)
     }
 });
 
