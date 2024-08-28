@@ -1,34 +1,23 @@
 {
  "actions": [],
- "autoname": "EST-BOM-.YYYY.-.#####",
- "creation": "2024-08-26 14:31:53.359980",
+ "autoname": "PROJ-BOM-.YYYY.-.#####",
+ "creation": "2024-08-27 21:32:12.394982",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "details_section",
   "quotation",
-  "quotation_item",
   "column_break_awpp",
-  "status",
-  "product_details_section",
-  "title",
-  "product_item",
-  "column_break_ycmk",
-  "bom_qty",
+  "project",
   "section_break_uyem",
-  "per_default_material_margin",
   "raw_materials",
   "section_break_svhj",
-  "per_default_activity_margin",
   "activities",
   "cost_details_section",
   "total_material_cost",
   "total_activities_cost",
-  "total_cost",
   "column_break_bsvw",
-  "margin_amount",
-  "unit_selling_price",
-  "total_selling_price"
+  "total_cost"
  ],
  "fields": [
   {
@@ -44,6 +33,10 @@
    "options": "Quotation",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_awpp",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "section_break_uyem",
@@ -68,50 +61,9 @@
    "options": "BOM Activity"
   },
   {
-   "fieldname": "quotation_item",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Quotation Item",
-   "read_only": 1,
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_awpp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "Draft\nSubmitted\nCancelled"
-  },
-  {
-   "fieldname": "product_details_section",
+   "fieldname": "cost_details_section",
    "fieldtype": "Section Break",
-   "label": "Product Details"
-  },
-  {
-   "fieldname": "title",
-   "fieldtype": "Data",
-   "label": "Title",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_ycmk",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "bom_qty",
-   "fieldtype": "Float",
-   "label": "BOM Qty",
-   "reqd": 1
-  },
-  {
-   "fieldname": "product_item",
-   "fieldtype": "Link",
-   "label": "Product Item",
-   "options": "Item"
+   "label": "Cost Details"
   },
   {
    "default": "0",
@@ -119,21 +71,6 @@
    "fieldtype": "Currency",
    "label": "Total Material Cost",
    "read_only": 1
-  },
-  {
-   "fieldname": "per_default_material_margin",
-   "fieldtype": "Float",
-   "label": "Default Margin %"
-  },
-  {
-   "fieldname": "per_default_activity_margin",
-   "fieldtype": "Float",
-   "label": "Default Margin %"
-  },
-  {
-   "fieldname": "cost_details_section",
-   "fieldtype": "Section Break",
-   "label": "Cost Details"
   },
   {
    "default": "0",
@@ -154,33 +91,20 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
-   "fieldname": "margin_amount",
-   "fieldtype": "Currency",
-   "label": "Margin Amount",
-   "read_only": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "unit_selling_price",
-   "fieldtype": "Currency",
-   "label": "Unit Selling Price",
-   "read_only": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "total_selling_price",
-   "fieldtype": "Currency",
-   "label": "Total Selling Price",
-   "read_only": 1
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-27 21:58:41.759708",
+ "modified": "2024-08-27 21:58:28.281130",
  "modified_by": "Administrator",
  "module": "SC Project",
- "name": "Estimation BOM",
+ "name": "Project BOM",
  "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [

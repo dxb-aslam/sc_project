@@ -9,6 +9,11 @@ app_license = "mit"
 # Includes in <head>
 # ------------------
 
+fixtures = [
+    {'dt':'Custom Field','filters': [['module','=','SC Project']]},
+    {'dt':'Property Setter','filters': [['module','=','SC Project']]}
+    ]
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/sc_project/css/sc_project.css"
 # app_include_js = "/assets/sc_project/js/sc_project.js"
@@ -122,13 +127,11 @@ doctype_js = {"Quotation" : "public/js/quotation.js"}
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Quotation": {
+		"on_update": "sc_project.events.quotation.delete_unlinked_boms",
+	}
+}
 
 # Scheduled Tasks
 # ---------------

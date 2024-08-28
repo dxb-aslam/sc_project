@@ -80,14 +80,8 @@ frappe.ui.form.on("BOM Activity", {
 const calculateRawMaterialRowTotal = (frm, cdt, cdn, amount_only = false) => {
     let row = locals[cdt][cdn]
     let total_cost = row.unit_cost * row.qty
-    let margin_amount = 0
-    if (amount_only) {
-        margin_amount = row.margin_amount
-    }
-    else {
-        margin_amount = row.per_margin * row.total_cost / 100
-        frappe.model.set_value(cdt, cdn, "margin_amount", margin_amount)
-    }
+    let margin_amount = amount_only ? row.margin_amount : (row.per_margin * total_cost / 100)
+    frappe.model.set_value(cdt, cdn, "margin_amount", margin_amount)
     frappe.model.set_value(cdt, cdn, "total_cost", total_cost)
     frappe.model.set_value(cdt, cdn, "total_selling_amount", total_cost + margin_amount)
 }
@@ -95,19 +89,10 @@ const calculateRawMaterialRowTotal = (frm, cdt, cdn, amount_only = false) => {
 const calculateActivityRowTotal = (frm, cdt, cdn, amount_only = false) => {
     let row = locals[cdt][cdn]
     let hours = row.days * row.no_of_labours * row.hours_per_day
-    let margin_amount = 0
-    if (!row.hourly_cost) {
-        row.hourly_cost = 0
-    }
     let total_cost = hours * row.hourly_cost
-    if (amount_only) {
-        margin_amount = row.margin_amount
-    }
-    else {
-        margin_amount = row.per_margin * row.total_cost / 100
-        frappe.model.set_value(cdt, cdn, "margin_amount", margin_amount)
-    }
+    let margin_amount = amount_only ? row.margin_amount : (row.per_margin * total_cost / 100)
     frappe.model.set_value(cdt, cdn, "hours", hours)
+    frappe.model.set_value(cdt, cdn, "margin_amount", margin_amount)
     frappe.model.set_value(cdt, cdn, "total_cost", total_cost)
     frappe.model.set_value(cdt, cdn, "total_selling_amount", total_cost + margin_amount)
 }
