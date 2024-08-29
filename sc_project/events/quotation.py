@@ -22,3 +22,12 @@ def delete_unlinked_boms(doc,method=None):
         if not bom.name in [row.custom_estimation_bom for row in doc.items ]:
             frappe.delete_doc("Estimation BOM",bom.name)
             frappe.msgprint(f"BOM {bom.name} Deleted!")
+
+def quotation_duplicate(doc,method=None):
+    for item in doc.items:
+        if item.custom_estimation_bom:
+            new_estimation_bom = frappe.copy_doc(frappe.get_doc("Estimation BOM",item.custom_estimation_bom))
+            new_estimation_bom.quotation = doc.name
+            new_estimation_bom.quotation_item = item.name
+            new_estimation_bom.insert()
+            item.db_set("custom_estimation_bom",new_estimation_bom.name)

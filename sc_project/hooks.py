@@ -130,7 +130,15 @@ doctype_js = {"Quotation" : "public/js/quotation.js"}
 doc_events = {
 	"Quotation": {
 		"on_update": "sc_project.events.quotation.delete_unlinked_boms",
-	}
+		"after_insert": "sc_project.events.quotation.quotation_duplicate",
+	},
+    "Sales Order":{
+        "on_submit":"sc_project.events.sales_order.updateSOreference"
+    },
+    "Project":{
+        "after_insert":"sc_project.events.project.updateProjectReference",
+        "on_trash":"sc_project.events.project.removeProjectRef"
+    }
 }
 
 # Scheduled Tasks

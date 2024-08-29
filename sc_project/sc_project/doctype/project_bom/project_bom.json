@@ -6,8 +6,6 @@
  "engine": "InnoDB",
  "field_order": [
   "details_section",
-  "quotation",
-  "column_break_awpp",
   "project",
   "section_break_uyem",
   "raw_materials",
@@ -24,19 +22,6 @@
    "fieldname": "details_section",
    "fieldtype": "Section Break",
    "label": "Quotation Details"
-  },
-  {
-   "fieldname": "quotation",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Quotation",
-   "options": "Quotation",
-   "read_only": 1,
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_awpp",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "section_break_uyem",
@@ -93,6 +78,7 @@
   {
    "fieldname": "project",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Project",
    "options": "Project",
    "read_only": 1,
@@ -101,7 +87,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-27 21:58:28.281130",
+ "modified": "2024-08-29 14:47:21.208237",
  "modified_by": "Administrator",
  "module": "SC Project",
  "name": "Project BOM",

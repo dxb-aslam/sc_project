@@ -28,7 +28,11 @@
   "column_break_bsvw",
   "margin_amount",
   "unit_selling_price",
-  "total_selling_price"
+  "total_selling_price",
+  "other_references_section",
+  "sales_order",
+  "column_break_fyln",
+  "project"
  ],
  "fields": [
   {
@@ -173,11 +177,34 @@
    "fieldtype": "Currency",
    "label": "Total Selling Price",
    "read_only": 1
+  },
+  {
+   "fieldname": "other_references_section",
+   "fieldtype": "Section Break",
+   "label": "Other References"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fyln",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-27 21:58:41.759708",
+ "modified": "2024-08-29 14:36:45.554590",
  "modified_by": "Administrator",
  "module": "SC Project",
  "name": "Estimation BOM",
