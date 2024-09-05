@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-29 15:02:08.599434",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "material_consumption_type",
+  "column_break_gmqd",
+  "material_issue_against"
+ ],
+ "fields": [
+  {
+   "fieldname": "material_consumption_type",
+   "fieldtype": "Select",
+   "label": "Material Consumption Type",
+   "options": "Direct Issue from Store\nBy Transferring to Work In Progress"
+  },
+  {
+   "fieldname": "column_break_gmqd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "material_issue_against",
+   "fieldtype": "Select",
+   "label": "Material Issue Against",
+   "options": "Project\nTask"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-09-05 20:04:25.391614",
+ "modified_by": "Administrator",
+ "module": "SC Project",
+ "name": "SC Project Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -202,9 +202,10 @@
    "read_only": 1
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-29 14:36:45.554590",
+ "modified": "2024-09-05 12:28:53.863901",
  "modified_by": "Administrator",
  "module": "SC Project",
  "name": "Estimation BOM",
@@ -224,6 +225,7 @@
    "write": 1
   }
  ],
+ "search_fields": "title,quotation",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
