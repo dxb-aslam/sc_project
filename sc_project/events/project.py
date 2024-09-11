@@ -4,17 +4,20 @@ import json
 
 import frappe.utils
 
+# update project reference in the Estimation
 def updateProjectReference(doc,method=None):
     boms = frappe.get_all("Estimation BOM",{"sales_order":doc.sales_order})
     for bom in boms:
         frappe.db.set_value("Estimation BOM",bom.name,{"project":doc.name})
     make_project_bom(doc)
-    
+
+# remove project reference
 def removeProjectRef(doc,method=None):
     boms = frappe.get_all("Estimation BOM",{"project":doc.name})
     for bom in boms:
         frappe.db.set_value("Estimation BOM",bom.name,{"project":""})
 
+# create Project BOM from Estimation BOMs
 def make_project_bom(doc):
     raw_materials = frappe.db.sql("""SELECT * FROM `tabEstimation BOM` eb
                                   JOIN `tabBOM Raw Material` brm ON brm.parent = eb.name AND brm.parenttype = "Estimation BOM"
@@ -35,6 +38,8 @@ def make_project_bom(doc):
     proj_bom.insert()
     doc.db_set("custom_project_bom",proj_bom.name)
 
+   
+# get bom items with qtys
 @frappe.whitelist()
 def get_bom_items(project):
     bom_id = frappe.db.get_value("Project",project,"custom_project_bom")
@@ -48,6 +53,7 @@ def get_bom_items(project):
     for item in project_bom.raw_materials:
         mr_qty = get_item_mr_qty(item.item_code,project)
         transferred_qty = get_item_transferred_qty(item.item_code,project,wip_warehouse)
+        # frappe.msgprint(f"{item.item_code} - {transferred_qty}")
         actual_qty = get_actual_qty(item.item_code,source_warehouse)
         bom_item_list.append(
             {
@@ -65,19 +71,19 @@ def get_bom_items(project):
     else:
         frappe.throw("No Items in the Project BOM")
 
+## get actual, requested, received, consumed, pending_qty for bom items
 def get_item_mr_qty(item_code,project):
     return frappe.db.sql("""
     SELECT SUM(mri.qty-mri.received_qty) FROM `tabMaterial Request Item` mri JOIN `tabMaterial Request` mr ON mr.name = mri.parent
-                  WHERE mri.docstatus = 1 AND mr.status != "Stopped"
+                  WHERE mri.docstatus = 1 AND mr.status != "Stopped" AND mr.material_request_type = "Purchase"
                   AND mri.item_code = %s AND  mri.project = %s
         """,(item_code,project))[0][0] or 0
 
 def get_item_transferred_qty(item_code,project,wip_warehouse):
     return frappe.db.sql("""
-    SELECT SUM(actual_qty) FROM `tabStock Entry` se JOIN `tabStock Ledger Entry` sle ON sle.voucher_no = se.name
-                  WHERE se.docstatus = 1 AND sle.item_code = %s AND sle.project = %s AND sle.warehouse = %s AND se.purpose = "Material Transfer"
+    SELECT SUM(sle.actual_qty) FROM `tabPurchase Receipt` pr JOIN `tabStock Ledger Entry` sle ON sle.voucher_no = pr.name
+                  WHERE pr.docstatus = 1 AND sle.item_code = %s AND sle.project = %s AND sle.warehouse = %s
         """,(item_code,project,wip_warehouse))[0][0] or 0
-
 
 def get_item_consumed_qty(item_code,project,wip_warehouse):
     return frappe.db.sql("""
@@ -85,13 +91,13 @@ def get_item_consumed_qty(item_code,project,wip_warehouse):
                   WHERE se.docstatus = 1 AND sle.item_code = %s AND sle.project = %s AND sle.warehouse = %s AND se.purpose = "Material Issue"
         """,(item_code,project,wip_warehouse))[0][0] or 0
 
-
 def get_actual_qty(item_code,warehouse=None):
     query = """SELECT SUM(actual_qty) FROM `tabBin` bin WHERE item_code = %s"""
     if warehouse:
         query += f" AND warehouse = {frappe.db.escape(warehouse)}"
     return frappe.db.sql(query,item_code)[0][0] or 0
 
+# process MR
 @frappe.whitelist()
 def process_mr(project,values):
     values = json.loads(values)
@@ -102,7 +108,7 @@ def process_mr(project,values):
         return
     mr_doc = frappe.get_doc({
         "doctype":"Material Request",
-        "material_request_type":"Material Transfer",
+        "material_request_type":"Purchase",
         "set_from_warehouse":values["from_warehouse"],
         "set_warehouse":values["to_warehouse"],
         "schedule_date":values["reqd_by"],
@@ -115,36 +121,7 @@ def process_mr(project,values):
     mr_doc.submit()
     return mr_doc.name
 
-@frappe.whitelist()
-def get_transferred_item_list(project):
-    bom_id = frappe.db.get_value("Project",project,"custom_project_bom")
-    source_warehouse = frappe.db.get_value("Project",project,"custom_source_warehouse") or None
-    wip_warehouse = frappe.db.get_value("Project",project,"custom_work_in_progress_warehouse") or None
-    if not bom_id:
-        frappe.throw("No BOM Available for this Project")
-        return
-    project_bom = frappe.get_doc("Project BOM",bom_id)
-    bom_item_list = []
-    for item in project_bom.raw_materials:
-        transferred_qty = get_item_transferred_qty(item.item_code,project,wip_warehouse)
-        consumed_qty = get_item_consumed_qty(item.item_code,project,wip_warehouse)
-        available_qty = get_actual_qty(item.item_code,wip_warehouse)
-        bom_item_list.append(
-            {
-                "item_code":item.item_code,
-                "bom_qty":item.qty,
-                "transferred_qty":transferred_qty,
-                "available_qty":available_qty,
-                "consumed_qty":consumed_qty,
-                "qty_to_issue":transferred_qty-consumed_qty
-             }
-        )
-    if bom_item_list:
-        return bom_item_list
-    else:
-        frappe.throw("No Items in the Project BOM")
-
-
+# project progress update
 @frappe.whitelist()
 def update_project(project,values):
     values = json.loads(values)
@@ -186,3 +163,34 @@ def update_project(project,values):
     if not items or not employees:
         frappe.throw("No Progress to Update.")
     return {"stock_entry":se_doc.name,"ts_list":ts_array}
+
+## get transferred items to the project
+@frappe.whitelist()
+def get_transferred_item_list(project):
+    bom_id = frappe.db.get_value("Project",project,"custom_project_bom")
+    source_warehouse = frappe.db.get_value("Project",project,"custom_source_warehouse") or None
+    wip_warehouse = frappe.db.get_value("Project",project,"custom_work_in_progress_warehouse") or None
+    if not bom_id:
+        frappe.throw("No BOM Available for this Project")
+        return
+    project_bom = frappe.get_doc("Project BOM",bom_id)
+    bom_item_list = []
+    for item in project_bom.raw_materials:
+        transferred_qty = get_item_transferred_qty(item.item_code,project,wip_warehouse)
+        # frappe.msgprint(f"{item.item_code} - {transferred_qty}")
+        consumed_qty = get_item_consumed_qty(item.item_code,project,wip_warehouse)
+        available_qty = get_actual_qty(item.item_code,wip_warehouse)
+        bom_item_list.append(
+            {
+                "item_code":item.item_code,
+                "bom_qty":item.qty,
+                "transferred_qty":transferred_qty,
+                "available_qty":available_qty,
+                "consumed_qty":consumed_qty,
+                "qty_to_issue":transferred_qty-consumed_qty
+             }
+        )
+    if bom_item_list:
+        return bom_item_list
+    else:
+        frappe.throw("No Items in the Project BOM")

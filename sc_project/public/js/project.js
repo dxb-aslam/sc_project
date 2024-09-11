@@ -17,7 +17,7 @@ const promptMaterialRequest = (frm) => {
             callback: function (r) {
                 if (!r.exc) {
                     let dialog = new frappe.ui.Dialog({
-                        title: "New Transfer Request",
+                        title: "New Purchase Request",
                         fields: [
                             {
                                 label: "From Warehouse",
@@ -62,7 +62,7 @@ const promptMaterialRequest = (frm) => {
                                 fields: [
                                     { in_list_view: 1, columns: 2, read_only: 1, label: "Item Code", fieldname: "item_code", fieldtype: "Link", options: "Item" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "BOM Qty", fieldname: "bom_qty", fieldtype: "Float" },
-                                    { in_list_view: 1, columns: 1, read_only: 1, label: "Transferred Qty", fieldname: "transferred_qty", fieldtype: "Float" },
+                                    { in_list_view: 1, columns: 1, read_only: 1, label: "Received Qty", fieldname: "used_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "Pending Qty", fieldname: "pending_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "Requested Qty", fieldname: "open_mr_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "In Stock", fieldname: "actual_qty", fieldtype: "Float" },
@@ -153,7 +153,7 @@ const promptProgressUpdate = (frm) => {
                                 fields: [
                                     { in_list_view: 1, columns: 3, read_only: 1, label: "Item Code", fieldname: "item_code", fieldtype: "Link", options: "Item" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "BOM Qty", fieldname: "bom_qty", fieldtype: "Float" },
-                                    { in_list_view: 1, columns: 1, read_only: 1, label: "Transferred Qty", fieldname: "transferred_qty", fieldtype: "Float" },
+                                    { in_list_view: 1, columns: 1, read_only: 1, label: "Received Qty", fieldname: "transferred_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "Available Qty", fieldname: "available_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 1, read_only: 1, label: "Consumed Qty", fieldname: "consumed_qty", fieldtype: "Float" },
                                     { in_list_view: 1, columns: 2, read_only: 0, label: "Qty to Issue", fieldname: "qty_to_issue", fieldtype: "Float" },
