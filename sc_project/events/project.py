@@ -177,7 +177,6 @@ def get_transferred_item_list(project):
     bom_item_list = []
     for item in project_bom.raw_materials:
         transferred_qty = get_item_transferred_qty(item.item_code,project,wip_warehouse)
-        # frappe.msgprint(f"{item.item_code} - {transferred_qty}")
         consumed_qty = get_item_consumed_qty(item.item_code,project,wip_warehouse)
         available_qty = get_actual_qty(item.item_code,wip_warehouse)
         bom_item_list.append(
